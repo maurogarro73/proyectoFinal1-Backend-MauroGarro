@@ -47,6 +47,27 @@ class CartManager {
       console.log(error);
     }
   }
+
+  async getCartsById(id) {
+    try {
+      if (!fs.existsSync(this.path)) {
+        await fs.promises.writeFile(this.patch, '[]');
+      }
+
+      let carts = [];
+      let cartContent = await fs.promises.readFile(this.path, 'utf-8');
+      carts = JSON.parse(cartContent);
+
+      const cartFound = carts.find((item) => item.idCart == id);
+      if (cartFound) {
+        return cartFound;
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
 }
 
 export default CartManager;
