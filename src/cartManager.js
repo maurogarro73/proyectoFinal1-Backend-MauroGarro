@@ -17,9 +17,7 @@ class CartManager {
       carts = JSON.parse(cartsContent);
 
       if (carts.length > 0) {
-        this.id = carts[carts.length - 1].id + 1;
-      } else {
-        this.id;
+        this.id = carts[carts.length - 1].idCart + 1;
       }
 
       const newCart = {
@@ -36,94 +34,19 @@ class CartManager {
     }
   }
 
-  /* async getProducts() {
+  async getCarts() {
     try {
       if (!fs.existsSync(this.path)) {
-        await fs.promises.writeFile(this.path, '[]');
+        await fs.promises.writeFile(this.patch, '[]');
       }
-      let products = [];
-
-      let productsContent = await fs.promises.readFile(this.path, 'utf-8');
-      products = JSON.parse(productsContent);
-      return products;
+      let carts = [];
+      let cartContent = await fs.promises.readFile(this.path, 'utf-8');
+      carts = JSON.parse(cartContent);
+      return carts;
     } catch (error) {
       console.log(error);
     }
   }
-
-  async getProductById(id) {
-    try {
-      if (!fs.existsSync(this.path)) {
-        await fs.promises.writeFile(this.path, '[]');
-      }
-      let products = [];
-      let productsContent = await fs.promises.readFile(this.path, 'utf-8');
-      products = JSON.parse(productsContent);
-
-      const productFound = products.find((item) => item.id == id);
-      if (productFound) {
-        return productFound;
-      } else {
-        return null;
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async updateProduct(id, modifyProduct) {
-    try {
-      if (!fs.existsSync(this.path)) {
-        await fs.promises.writeFile(this.path, '[]');
-      }
-      let products = [];
-      let productsContent = await fs.promises.readFile(this.path, 'utf-8');
-      products = JSON.parse(productsContent);
-
-      const { title, description, price, thumbnail, stock } = modifyProduct;
-      let indexProduct = products.findIndex((index) => index.id === id);
-      if (indexProduct !== -1) {
-        products[indexProduct].title = title || products[indexProduct].title;
-        products[indexProduct].description = description || products[indexProduct].description;
-        products[indexProduct].price = price || products[indexProduct].price;
-        products[indexProduct].thumbnail = thumbnail || products[indexProduct].thumbnail;
-        products[indexProduct].stock = stock || products[indexProduct].stock;
-
-        let productString = JSON.stringify(products, null, 2);
-        await fs.promises.writeFile(this.path, productString);
-        return 'Modified Product';
-      } else {
-        return 'Product Not Found';
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  }
-
-  async deleteProduct(id) {
-    try {
-      if (!fs.existsSync(this.path)) {
-        await fs.promises.writeFile(this.path, '[]');
-      }
-      let products = [];
-      let productsContent = await fs.promises.readFile(this.path, 'utf-8');
-      products = JSON.parse(productsContent);
-
-      let indexProduct = products.findIndex((index) => index.id === id);
-      if (indexProduct !== -1) {
-        products.splice(indexProduct, 1);
-        let productString = JSON.stringify(products, null, 2);
-        await fs.promises.writeFile(this.path, productString);
-        return 'Delete product!';
-      } else {
-        return 'Product Not Found';
-      }
-    } catch (error) {
-      console.log(error);
-    }
-  } */
 }
-
-const cartManager = new CartManager('carts.json');
 
 export default CartManager;
