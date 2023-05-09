@@ -34,6 +34,46 @@ class CartManager {
     }
   }
 
+  async updateCart(cartId, productId) {
+    try {
+      if (!fs.existsSync(this.path)) {
+        await fs.promises.writeFile(this.patch, '[]');
+      }
+
+      /* Obtengo todos los carts y lo guardo en la variable CARTS */
+      let carts = [];
+      let cartContent = await fs.promises.readFile(this.path, 'utf-8');
+      carts = JSON.parse(cartContent);
+
+      /* Buscamos un cart con ID del parametro */
+      const cartFound = carts.find((item) => item.idCart == cartId);
+      if (cartFound) {
+        const productFound = cartFound.products.find((item) => item.idProduct == productId);
+        if (productFound) {
+          productFound.quantity++;
+          const index = cartFound.products.indexOf(productFound);
+          cartFound.products.splice(index, 1, productFound);
+          const indexCart = carts.indexOf(cartFound);
+          carts.splice(indexCart, 1, cartFound);
+          let cartString = JSON.stringify(carts, null, 2);
+          await fs.promises.writeFile(this.path, cartString);
+          return 'Agregaste un producto más';
+        } else {
+          cartFound.products.push({ idProduct: productId, quantity: 1 });
+          const indexCart = carts.indexOf(cartFound);
+          carts.splice(indexCart, 1, cartFound);
+          let cartString = JSON.stringify(carts, null, 2);
+          await fs.promises.writeFile(this.path, cartString);
+          return 'producto agregado al carrito';
+        }
+      } else {
+        return 'No existe el carrito';
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
   async getCarts() {
     try {
       if (!fs.existsSync(this.path)) {

@@ -12,9 +12,9 @@ class ProductManager {
         await fs.promises.writeFile(this.path, '[]');
       }
 
-      const { title, description, price, thumbnail, code, stock } = productData;
+      const { title, description, price, thumbnail, code, stock, category } = productData;
 
-      if (!title || !description || !price || !thumbnail || !code || !stock) {
+      if (!title || !description || !price || !thumbnail || !code || !stock || !category) {
         return 'complete all fields';
       } else {
         let products = [];
@@ -29,7 +29,7 @@ class ProductManager {
           if (products.length > 0) {
             this.id = products[products.length - 1].id + 1;
           }
-          const product = { id: this.id, ...productData };
+          const product = { id: this.id, ...productData, status: true };
           products.push(product);
           let productString = JSON.stringify(products, null, 2);
           await fs.promises.writeFile(this.path, productString);
