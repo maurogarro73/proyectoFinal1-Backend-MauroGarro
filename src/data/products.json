@@ -133,12 +133,12 @@
   },
   {
     "id": 12,
-    "title": "Camiseta de Racing",
-    "description": "Camiseta oficial de Racing Temporada 2020",
-    "price": 33,
+    "title": "Camiseta de Racing Club de Avellaneda",
+    "description": "Camiseta oficial de Racing Temporada 2022",
+    "price": 40,
     "thumbnail": "image.jpg",
     "code": "RAC20",
-    "stock": 3,
+    "stock": 7,
     "category": "Camiseta nacional",
     "status": true
   }

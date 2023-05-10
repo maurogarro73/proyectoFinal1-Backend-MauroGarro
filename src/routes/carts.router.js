@@ -21,7 +21,7 @@ cartsRouter.get('/', async (req, res) => {
   }
 });
 
-cartsRouter.get('/:id', async (req, res) => {
+cartsRouter.get('/:id/products', async (req, res) => {
   try {
     const id = req.params.id;
     const cart = await containerCarts.getCartsById(id);
@@ -44,7 +44,7 @@ cartsRouter.post('/', async (req, res) => {
   }
 });
 
-cartsRouter.post('/:cid/products/:pid', async (req, res) => {
+cartsRouter.put('/:cid/products/:pid', async (req, res) => {
   try {
     const dataCarts = await containerCarts.getCarts();
     const dataProducts = await containerProducts.getProducts();
@@ -52,12 +52,12 @@ cartsRouter.post('/:cid/products/:pid', async (req, res) => {
     const productID = req.params.pid;
     const cartFound = dataCarts.find((item) => item.idCart == parseInt(cartID));
     if (!cartFound) {
-      return res.status(200).json({ error: 'No existe el carrito id:' + cartID });
+      return res.status(200).json({ error: 'Cart not found ID: ' + cartID });
     }
 
     const productFound = dataProducts.find((item) => item.id == parseInt(productID));
     if (!productFound) {
-      return res.status(200).json({ error: 'no existe el producto' + productID });
+      return res.status(200).json({ error: 'Product not found ID: ' + productID });
     }
     const product = await containerCarts.updateCart(parseInt(cartID), parseInt(productID));
     return res.status(200).json(product);
